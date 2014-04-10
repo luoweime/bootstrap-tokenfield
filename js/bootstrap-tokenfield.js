@@ -894,15 +894,13 @@
         this.$input.width( mirrorWidth )
       }
       else {
-        this.$input.css( 'width', this.options.minWidth + 'px' )
-        if (this.textDirection === 'rtl') {
+        if (this.textDirection === 'rtl') {                                      
           return this.$input.width( this.$input.offset().left + this.$input.outerWidth() - this.$wrapper.offset().left - parseInt(this.$wrapper.css('padding-left'), 10) - inputPadding - 1 )
-        }
-        var preWidth = this.$wrapper.offset().left + this.$wrapper.width() + parseInt(this.$wrapper.css('padding-left'), 10) - this.$input.offset().left - inputPadding;
-        if (this.$wrapper.find('.before-placeholder') && (this.$wrapper.width() - preWidth <= 16)) {
-          this.$input.width(preWidth - 16);
-        } else {
-          this.$input.width(preWidth);
+        }                                                                        
+        if (this.$wrapper.find('.token.invalid').length) {                                                                                                                                        
+          this.$input.width(this.options.minWidth);                                                 
+        } else {                                                                 
+          this.$input.width(this.$wrapper.offset().left + this.$wrapper.width() + parseInt(this.$wrapper.css('padding-left'), 10) - this.$input.offset().left - inputPadding);
         }
       }
     }
