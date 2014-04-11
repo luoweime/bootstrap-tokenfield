@@ -898,7 +898,7 @@
         if (this.textDirection === 'rtl') {                                      
           return this.$input.width( this.$input.offset().left + this.$input.outerWidth() - this.$wrapper.offset().left - parseInt(this.$wrapper.css('padding-left'), 10) - inputPadding - 1 )
         }                                                                        
-        if (this.$wrapper.find('.token.invalid').length) {                                                                                                                                        
+        if (this.$wrapper.find('.token').length) {                                                                                                                                        
           this.$input.width(this.options.minWidth);                                                 
         } else {                                                                 
           this.$input.width(this.$wrapper.offset().left + this.$wrapper.width() + parseInt(this.$wrapper.css('padding-left'), 10) - this.$input.offset().left - inputPadding);
