@@ -653,7 +653,10 @@
       try {
         if (clipboardData) {
           var clipData = clipboardData.getData('Text');
-          if (/^(\s*)(\d+)(.*)*$/.test(clipData)) {
+          if (clipData != null || clipData !== '') {
+            clipData = clipData.replace(/^\s+|\s+$/g,'');
+          }
+          if (/^\d/.test(clipData)) {
             this.$input.val(clipData.replace(/(\r\n|\n|\r)/gm, ' ')); 
             clipboardData.clearData();
           }
