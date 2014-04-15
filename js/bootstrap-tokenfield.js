@@ -635,6 +635,15 @@
     }
 
   , paste: function (e) {
+      try {
+        if (clipboardData) {
+          var clipData = clipboardData.getData('Text');
+          if (clipData != null && clipData !== '') {
+            this.$input.val(clipData.replace(/(\r\n|\n|\r)/gm, " ")); 
+            clipboardData.clearData();
+          }
+        }
+      } catch(e) {}
       var _self = this
 
       // Add tokens to existing ones
