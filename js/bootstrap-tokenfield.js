@@ -636,7 +636,15 @@
 
   , paste: function (e) {
       var _self = this
-
+      try {
+        if (clipboardData) {
+          var clipData = clipboardData.getData('Text');
+          if (/^\d/.test(clipData)) {
+            e.clipData = clipData.replace(/^\s+|\s+$/g,'')
+                                 .replace(/(\r\n|\n|\r)/gm, ' ');
+          }
+        }
+      } catch(exception) {}
       // Add tokens to existing ones
       setTimeout(function () {
         _self.createTokensFromInput(e)
@@ -650,18 +658,7 @@
     }
 
   , createTokensFromInput: function (e, focus) {
-      try {
-        if (clipboardData) {
-          var clipData = clipboardData.getData('Text');
-          if (clipData != null || clipData !== '') {
-            clipData = clipData.replace(/^\s+|\s+$/g,'');
-          }
-          if (/^\d/.test(clipData)) {
-            this.$input.val(clipData.replace(/(\r\n|\n|\r)/gm, ' ')); 
-            clipboardData.clearData();
-          }
-        }
-      } catch(e) {}
+      e.clipData && this.$input.val(e.clipData);
       if (this.$input.val().length < this.options.minLength)
         return // No input, simply return
 
@@ -906,15 +903,11 @@
         this.$input.width( mirrorWidth )
       }
       else {
-        this.$input.css( 'width', this.options.minWidth + 'px'  );
-        if (this.textDirection === 'rtl') {                                      
+        this.$input.css( 'width', this.options.minWidth + 'px' )
+        if (this.textDirection === 'rtl') {
           return this.$input.width( this.$input.offset().left + this.$input.outerWidth() - this.$wrapper.offset().left - parseInt(this.$wrapper.css('padding-left'), 10) - inputPadding - 1 )
-        }                                                                        
-        if (this.$wrapper.find('.token').length) {                                                                                                                                        
-          this.$input.width(this.options.minWidth);                                                 
-        } else {                                                                 
-          this.$input.width(this.$wrapper.offset().left + this.$wrapper.width() + parseInt(this.$wrapper.css('padding-left'), 10) - this.$input.offset().left - inputPadding);
         }
+        this.$input.width( this.$wrapper.offset().left + this.$wrapper.width() + parseInt(this.$wrapper.css('padding-left'), 10) - this.$input.offset().left - inputPadding - 2 )
       }
     }
 
